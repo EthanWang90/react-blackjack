@@ -22,12 +22,14 @@ const styles = theme => ({
     }
 });
 
+
 class Deck extends React.Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            spacing: '8'
+            spacing: '8',
+            pokerCount: this.props.pokerCount
         }
     }
 
@@ -35,6 +37,7 @@ class Deck extends React.Component{
 
         const { classes } = this.props;
         const { spacing } = this.state;
+        console.log(this.state.pokerCount);
 
         return(
             <Grid container className={classes.root} spacing={16}>
@@ -45,14 +48,13 @@ class Deck extends React.Component{
             justify="center"
             spacing={Number(spacing)}
           >
-            {[0, 1, 2].map(value => (
+            {this.state.pokerCount.map(value => (
               <Grid key={value} item>
-                  <Paper style={{ backgroundColor: 'red', position: 'relative', left: 40 + value*-80 }} className={classes.paper} />
+                  <Paper style={{ backgroundColor: this.props.pokerColor, position: 'relative', left: 40 + value*-80 }} className={classes.paper} />
               </Grid>
             ))}
           </Grid>
         </Grid>
-
       </Grid>
         );
         
