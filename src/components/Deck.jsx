@@ -29,7 +29,6 @@ class Deck extends React.Component{
         super(props);
         this.state = {
             spacing: '8',
-            pokerCount: this.props.pokerCount
         }
     }
 
@@ -37,29 +36,26 @@ class Deck extends React.Component{
 
         const { classes } = this.props;
         const { spacing } = this.state;
-        console.log(this.state.pokerCount);
 
         return(
-            <Grid container className={classes.root} spacing={16}>
-        <Grid item xs={12}>
-          <Grid
-            container
-            className={classes.demo}
-            justify="center"
-            spacing={Number(spacing)}
-          >
-            {this.state.pokerCount.map(value => (
-              <Grid key={value} item>
-                  <Paper style={{ backgroundColor: this.props.pokerColor, position: 'relative', left: 40 + value*-80 }} className={classes.paper} />
+          <Grid container className={classes.root} spacing={16}>
+            <Grid item xs={12}>
+              <Grid
+                container
+                className={classes.demo}
+                justify="center"
+                spacing={Number(spacing)}
+              >
+                {this.props.localPokers.map(value => (
+                  <Grid key={value} item>
+                    <Poker id={value}/>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-        );
-        
+        );  
     }
-
 }
 
 Deck.propTypes = {

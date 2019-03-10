@@ -19,7 +19,14 @@ module.exports = {
 						'plugins': ['@babel/plugin-proposal-class-properties']}]
 	      }
 	    }
-	  }
+		},
+		{
+			test: /\.m?jpg|jpeg$/,
+			exclude: /(node_modules|bower_components)/,
+			use: {
+				loader: 'url-loader'
+			}
+		}
 	]
 	},
 	resolve:{
