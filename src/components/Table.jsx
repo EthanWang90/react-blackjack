@@ -49,6 +49,7 @@ export default class Table extends React.Component{
             dealerDeck: [],
             hitStatus: true,
             standStatus: true,
+            playerCount: null,
         }
     }
 
@@ -58,10 +59,22 @@ export default class Table extends React.Component{
         let poker3 = this.deal();
         let poker4 = this.deal();
 
+        if(poker1["value"] == "SpecialNumber"){
+            poker1["value"] = 11;
+        }
+        if(poker2["value"] == "SpecialNumber"){
+            poker2["value"] = 11;
+        }
+        if(poker1["value"] == 11 && poker2["value"] == 11){
+            poker1["value"] = 1;
+            poker2["value"] = 1;
+        }
+
         this.setState({
             playerDeck: [poker1,poker2],
             dealerDeck: [poker3,poker4],
-        });
+            playerCount: poker1.value + poker2.value,
+        },()=>{console.log("playerCount: " + this.state.playerCount)});
         console.log('componentwillmount');
     }
 
@@ -78,7 +91,16 @@ export default class Table extends React.Component{
         this.setState({
             playerDeck: this.state.playerDeck.concat([poker])
         },()=>{
-
+            if(poker.value == "SpecialNumber"){
+                if((this.state.playerCount + 11)>=21){
+                    poker.set("value", 1)
+                }else{
+                    poker.set("value", 11)
+                }
+            }
+            this.setState({
+                playerCount: this.state.playerCount + poker.value
+            });
             if(this.state.playerDeck.length >= 4){
                 this.setState({
                     hitStatus: false,
@@ -134,7 +156,7 @@ export default class Table extends React.Component{
                                     </Grid>
                                     <Grid container xs={6}  justify='center' alignItems='center'>
                                         <Deck name='dealer' localPokers={this.state.dealerDeck}/>
-                                        <Info></Info>
+                                        <Info playerCount={this.state.playerCount}/>
                                         <Deck name='player' localPokers={this.state.playerDeck}/>  
                                     </Grid>
                                     <Grid container xs={3}  justify='center' alignItems='flex-end'>
