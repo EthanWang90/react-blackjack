@@ -5,13 +5,24 @@ import Grid from '@material-ui/core/Grid';
 import Panel from './Panel.jsx';
 import Info from './Info.jsx';
 import tableImg from '../images/table.jpg';
+import { number } from 'prop-types';
 
 
 // const tableImg = require('../images/table.jpg');
 
 const baseArray = [1,2,3,4,5,6,7,8,9,10,11,12,13];
-const allPoker = baseArray.map(value=>('红' + value)).concat(baseArray.map(value=>('黑' + value))).concat(baseArray.map(value=>('梅' + value))).concat(baseArray.map(value=>('方' + value)));
-const allPokers = allPoker.concat(allPoker);
+const baseArray2 = baseArray.map(value=>('红' + value)).concat(baseArray.map(value=>('黑' + value))).concat(baseArray.map(value=>('梅' + value))).concat(baseArray.map(value=>('方' + value)));
+const baseArray3 = baseArray2.concat(baseArray2);
+const allPokers = baseArray3.map(value=>{
+    let name = value;
+    let v = Number.parseInt(value.slice(1));
+    if(v==11||v==12||v==13){
+        v = 10;
+    }else if(v==1){
+        v = "SpecialNumber";
+    }
+    return {'name': name, 'value': v, 'src': ''}
+});
 
 function shuffle(a) {
     var len = a.length;
@@ -67,7 +78,7 @@ export default class Table extends React.Component{
         this.setState({
             playerDeck: this.state.playerDeck.concat([poker])
         },()=>{
-            
+
             if(this.state.playerDeck.length >= 4){
                 this.setState({
                     hitStatus: false,
@@ -108,7 +119,7 @@ export default class Table extends React.Component{
     }
 
     render(){
-
+        console.log(this.state.localPokers);
         return(
             <div style={{width:"100%"}}>
                 <div style={{height:100}}></div>

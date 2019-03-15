@@ -48,8 +48,8 @@ class Deck extends React.Component{
                 spacing={Number(spacing)}
               >
                 {this.props.localPokers.map(value => (
-                  <Grid key={value} item>
-                    <Poker id={value}/>
+                  <Grid key={value.name} item>
+                    <Poker id={value.name}/>
                   </Grid>
                 ))}
               </Grid>
