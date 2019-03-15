@@ -26,11 +26,29 @@ class Poker extends React.Component{
         name2: 'test2'
     }
 
+    // shouldComponentUpdate(nextStat,nextProps){
+    //     if(this.props == nextProps){
+    //         return false
+    //     }
+    //     return true
+    // }
+
+        /* Un-commeting this function, you can see that the render() method is not called agian.*/
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(nextProps) === JSON.stringify(this.props) &&
+            JSON.stringify(nextState) === JSON.stringify(this.state)) {
+            return false;
+        }
+        return true;
+    }
+
     render(){
+        console.log('rendertest');
         const { classes } = this.props;
         return(
             <div>
                 <Paper elevation={5} className={classes.paper} style={{ backgroundImage:`url(${pokerImg})`,backgroundSize:'100% 100%'}}>{this.props.id}</Paper>
+                {/* <Paper elevation={5} className={classes.paper} ></Paper> */}
             </div>
         )
     }

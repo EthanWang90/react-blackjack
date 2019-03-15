@@ -36,6 +36,7 @@ class Deck extends React.Component{
 
         const { classes } = this.props;
         const { spacing } = this.state;
+        console.log(this.props.localPokers);
 
         return(
           <Grid container className={classes.root} spacing={16}>

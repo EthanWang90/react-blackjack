@@ -3,6 +3,7 @@ import Deck from './Deck.jsx';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Panel from './Panel.jsx';
+import Info from './Info.jsx';
 import tableImg from '../images/table.jpg';
 
 
@@ -35,13 +36,12 @@ export default class Table extends React.Component{
             localPokers: shuffle(allPokers),
             playerDeck: [],
             dealerDeck: [],
+            hitStatus: true,
+            standStatus: true,
         }
-        console.log('constructor');
     }
 
     componentWillMount(){
-        console.log(this.state.localPokers[103]);
-        console.log(this.state.localPokers);
         let poker1 = this.deal();
         let poker2 = this.deal();
         let poker3 = this.deal();
@@ -62,8 +62,37 @@ export default class Table extends React.Component{
         return tmpPoker
     }
 
+    playerDeal=()=>{
+        let poker = this.deal();
+        this.setState({
+            playerDeck: this.state.playerDeck.concat([poker])
+        },()=>{
+            
+            if(this.state.playerDeck.length >= 4){
+                this.setState({
+                    hitStatus: false,
+                    standStatus: false,
+                })
+            }
+        })
+    }
+
+    dealerDeal=()=>{
+        let poker = this.deal();
+        this.setState({
+            dealerDeck: this.state.dealerDeck.concat([poker])
+        })
+    }
+
+    stand=()=>{
+        this.setState({
+            hitStatus: false,
+            standStatus: false
+        },this.dealerDeal)
+    }
+
     changeColor(){
-        console.log('color');
+
         this.setState({
             pokerColor: 'green'
         });
@@ -79,9 +108,7 @@ export default class Table extends React.Component{
     }
 
     render(){
-        console.log(this.state.localPokers);
-        console.log(this.state.playerDeck);
-        console.log(this.state.dealerDeck);
+
         return(
             <div style={{width:"100%"}}>
                 <div style={{height:100}}></div>
@@ -92,15 +119,15 @@ export default class Table extends React.Component{
                             <div style={{position:'relative',top:20}}>
                                 <Grid container>
                                     <Grid container xs={3} justify='center' alignItems='flex-end'>
-                                        <Panel fabColor='red' fabText="Hit" changeColor={this.changeColor.bind(this)} addPoker={this.addPoker.bind(this)}/>
+                                        <Panel fabColor='red' fabText="Hit" status={this.state.hitStatus} handler={this.playerDeal}/>
                                     </Grid>
                                     <Grid container xs={6}  justify='center' alignItems='center'>
                                         <Deck name='dealer' localPokers={this.state.dealerDeck}/>
-                                        <div style={{height:200, width:'100%'}}></div>
+                                        <Info></Info>
                                         <Deck name='player' localPokers={this.state.playerDeck}/>  
                                     </Grid>
                                     <Grid container xs={3}  justify='center' alignItems='flex-end'>
-                                        <Panel fabColor='blue' fabText='Stand' changeColor={this.changeColor.bind(this)} addPoker={this.addPoker.bind(this)}/>
+                                        <Panel fabColor='blue' fabText='Stand' status={this.state.standStatus} handler={this.stand}/>
                                     </Grid>     
                                 </Grid>
                             </div>
