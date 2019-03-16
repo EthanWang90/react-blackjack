@@ -50,6 +50,7 @@ export default class Table extends React.Component{
             hitStatus: true,
             standStatus: true,
             playerCount: null,
+            gameStatus: 'ongoing'
         }
     }
 
@@ -74,8 +75,9 @@ export default class Table extends React.Component{
             playerDeck: [poker1,poker2],
             dealerDeck: [poker3,poker4],
             playerCount: poker1.value + poker2.value,
-        },()=>{console.log("playerCount: " + this.state.playerCount)});
-        console.log('componentwillmount');
+        },()=>{
+
+        });
     }
 
     deal=()=>{
@@ -100,6 +102,14 @@ export default class Table extends React.Component{
             }
             this.setState({
                 playerCount: this.state.playerCount + poker.value
+            },()=>{
+                if (this.state.playerCount > 21){
+                    this.setState({
+                        hitStatus: false,
+                        standStatus: false,
+                        gameStatus: 'defeat'
+                    });
+                }
             });
             // if(this.state.playerDeck.length >= 4){
             //     this.setState({
@@ -107,6 +117,7 @@ export default class Table extends React.Component{
             //         standStatus: false,
             //     })
             // }
+
         })
     }
 
@@ -125,19 +136,22 @@ export default class Table extends React.Component{
     }
 
     changeColor(){
-
         this.setState({
             pokerColor: 'green'
         });
     }
 
-    addPoker(){
-        this.state.pokerCount.push(this.state.pokerCount.slice(-1)[0]+1);
-        console.log(this.state.pokerCount[-1]);
-        console.log('after');
-        this.setState({
-            pokerCount: this.state.pokerCount
-        });
+    // addPoker(){
+    //     this.state.pokerCount.push(this.state.pokerCount.slice(-1)[0]+1);
+    //     console.log(this.state.pokerCount[-1]);
+    //     console.log('after');
+    //     this.setState({
+    //         pokerCount: this.state.pokerCount
+    //     });
+    // }
+
+    newGame=()=>{
+
     }
 
     render(){
@@ -156,7 +170,7 @@ export default class Table extends React.Component{
                                     </Grid>
                                     <Grid container xs={6}  justify='center' alignItems='center'>
                                         <Deck name='dealer' localPokers={this.state.dealerDeck}/>
-                                        <Info playerCount={this.state.playerCount}/>
+                                        <Info playerCount={this.state.playerCount} gameStatus={this.state.gameStatus} handler={this.newGame}/>
                                         <Deck name='player' localPokers={this.state.playerDeck}/>  
                                     </Grid>
                                     <Grid container xs={3}  justify='center' alignItems='flex-end'>
