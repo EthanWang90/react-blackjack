@@ -44,6 +44,7 @@ export default class Table extends React.Component{
         this.state={
             pokerColor: 'yellow',
             pokerCount: [0,1,2],
+            basePokers: shuffle(allPokers),
             localPokers: shuffle(allPokers),
             playerDeck: [],
             dealerDeck: [],
@@ -63,7 +64,7 @@ export default class Table extends React.Component{
         let poker2 = this.deal();
         let poker3 = this.deal();
         let poker4 = this.deal();
-
+        
         if(poker1["value"] == "SpecialNumber"){
             poker1["value"] = 11;
         }
@@ -89,6 +90,21 @@ export default class Table extends React.Component{
 
     deal=()=>{
         let tmpPoker = this.state.localPokers.pop();
+        if(tmpPoker == undefined){
+            console.log('success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            this.setState({
+                localPokers: this.state.basePokers
+            },()=>{
+                tmpPoker = this.state.localPokers.pop();
+                this.setState({
+                    localPokers: this.state.localPokers
+                });
+                // TODO
+                console.log("hi");
+                console.log(this.state.localPokers);
+                console.log("hi");
+            });
+        }
         this.setState({
             localPokers: this.state.localPokers
         });
@@ -102,9 +118,9 @@ export default class Table extends React.Component{
         },()=>{
             if(poker.value == "SpecialNumber"){
                 if((this.state.playerCount + 11)>=21){
-                    poker.set("value", 1)
+                    poker["value"] = 1
                 }else{
-                    poker.set("value", 11)
+                    poker["value"] = 11
                 }
             }
             this.setState({
