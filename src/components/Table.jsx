@@ -101,12 +101,12 @@ export default class Table extends React.Component{
             this.setState({
                 playerCount: this.state.playerCount + poker.value
             });
-            if(this.state.playerDeck.length >= 4){
-                this.setState({
-                    hitStatus: false,
-                    standStatus: false,
-                })
-            }
+            // if(this.state.playerDeck.length >= 4){
+            //     this.setState({
+            //         hitStatus: false,
+            //         standStatus: false,
+            //     })
+            // }
         })
     }
 
