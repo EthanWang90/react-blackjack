@@ -55,6 +55,10 @@ export default class Table extends React.Component{
     }
 
     componentWillMount(){
+        this.gameInit();
+    }
+
+    gameInit=()=>{
         let poker1 = this.deal();
         let poker2 = this.deal();
         let poker3 = this.deal();
@@ -75,6 +79,9 @@ export default class Table extends React.Component{
             playerDeck: [poker1,poker2],
             dealerDeck: [poker3,poker4],
             playerCount: poker1.value + poker2.value,
+            hitStatus: true,
+            standStatus: true,
+            gameStatus: 'ongoing'
         },()=>{
 
         });
@@ -151,7 +158,7 @@ export default class Table extends React.Component{
     // }
 
     newGame=()=>{
-
+        this.gameInit();
     }
 
     render(){
